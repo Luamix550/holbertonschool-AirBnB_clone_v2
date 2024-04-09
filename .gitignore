@@ -1,5 +1,10 @@
 /__pycache__
 /models/__pycache__
+<<<<<<< HEAD
 /models/engine/__pycache__
 /file.json
 /.env
+=======
+/engine/__pycache__
+/file.json
+>>>>>>> e7690cf (bug fixed 01)
