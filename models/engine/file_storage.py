@@ -50,7 +50,12 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        if obj is None:
+        """Removes an object from the storage dictionary"""
+        from models.__init__  import storage
+        if obj is not None:
+            obj_key = f"{obj.__class__.__name__}.{obj.id}"
+            if obj_key in self.__objects.keys():
+                del self.__objects[obj_key]
+                storage.save()
+        else:
             return
-        elif obj in self.__object:
-            del(obj)
