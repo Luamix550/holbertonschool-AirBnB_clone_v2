@@ -66,3 +66,6 @@ class FileStorage:
                 storage.save()
         else:
             return
+
+    @property
+    cities = 
