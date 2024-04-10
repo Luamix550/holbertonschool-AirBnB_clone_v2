@@ -10,14 +10,14 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
+        new_dict = {}
         if cls is None:
             return FileStorage.__objects
         else:
-            return {
-                key: value
-                for key, value in FileStorage.__objects.items()
-                if type(value).__name__ == cls
-            }
+            for key, value in FileStorage.__objects.items():
+                if value.__class__ == cls:
+                    new_dict[key] = value
+            return new_dict
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -46,7 +46,7 @@ class FileStorage:
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
                     'Review': Review
-                  }
+                }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
