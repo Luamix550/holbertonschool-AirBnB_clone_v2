@@ -11,8 +11,8 @@ class State(BaseModel):
 
     @property
     def get_cities(self):
-        city_instances = {}
+        city_instances = []
         for City in self.cities:
             if City.state_id == State.id:
-                city_instances.append()
+                city_instances.append(City)
         return city_instances
