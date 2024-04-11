@@ -4,7 +4,7 @@ from MySQLdb import _mysql
 import os
 from models.engine import Base
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import Session, sessionmaker, scoped_session
 
 from models.user import User
 from models.state import State
@@ -34,30 +34,41 @@ class DBStorage:
         Session = sessionmaker(bind=self.__engine)
         session = Session()
 
-    def all(self, cls=None):
-        new_dict = {}
+        def new(self, obj):
+            with Session(self.__engine):
+                session.add(self.__session)
 
-        if cls is None:
-            classes = {
-                User,
-                Place,
-                State,
-                City,
-                Amenity,
-                Review
-            }
+        def save(self):
+            with Session(self.__engine):
+                session.commit()
 
-            for c in classes:
-                objs = Session.query(c).all()
+        def delete(self, obj=None):
+            if obj is None:
+                session.delete(obj)
 
-                for key, value in objs.items():
+        def reload(self):
+            Base.metadata.create_all(self.__engine)
+            session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+            Session = scoped_session(session_factory)
+            self.__session = Session()
+
+        def all(self, cls=None):
+            new_dict = {}
+
+            if cls is None:
+                classes = [User, Place, State, City, Amenity, Review]
+
+                for c in classes:
+                    objs = Session.query(c).all()
+
+                    for key, value in objs.items():
+                        if value.__class__ == cls:
+                            new_dict[key] = value
+                    return new_dict
+            else:
+                objs = self.__session.query(cls).all()
+
+                for key, value in objs:
                     if value.__class__ == cls:
                         new_dict[key] = value
                 return new_dict
-        else:
-            objs = self.__session.query(cls).all()
-
-            for key, value in objs:
-                if value.__class__ == cls:
-                    new_dict[key] = value
-            return new_dict
