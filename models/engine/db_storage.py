@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
-from MySQLdb import _mysql
 import os
 from models.engine import Base
 from sqlalchemy import create_engine
@@ -21,54 +20,53 @@ class DBStorage:
     def __init__(self):
         user = os.getenv("HBNB_MYSQL_USER")
         password = os.getenv("HBNB_MYSQL_PWD")
-        host = os.getenv("HBNB_MYSQL_HOST9", default="localhost")
+        host = os.getenv("HBNB_MYSQL_HOST", default="localhost")
         database = os.getenv("HBNB_MYSQL_DB")
 
         self.__engine = create_engine(
-            "mysql+mysqldb://{}:{}@localhost/{}".format(user, password, database),
+            "mysql+mysqldb://{}:{}@{}/{}".format(user, password, host, database),
             pool_pre_ping=True,
         )
 
         Base.metadata.create_all(self.__engine)
 
         Session = sessionmaker(bind=self.__engine)
-        session = Session()
+        self.__session = Session()
 
-        def new(self, obj):
-            with Session(self.__engine):
-                session.add(self.__session)
+    def new(self, obj):
+        with Session(self.__engine):
+            self.__session.add(self.__session)
 
-        def save(self):
-            with Session(self.__engine):
-                session.commit()
+    def save(self):
+        with Session(self.__engine):
+            self.__session.commit()
 
-        def delete(self, obj=None):
-            if obj is None:
-                session.delete(obj)
+    def delete(self, obj=None):
+        if obj is None:
+            self.__session.delete(obj)
 
-        def reload(self):
-            Base.metadata.create_all(self.__engine)
-            session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
-            Session = scoped_session(session_factory)
-            self.__session = Session()
+    def reload(self):
+        Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
 
-        def all(self, cls=None):
-            new_dict = {}
+    def all(self, cls=None):
+        new_dict = {}
 
-            if cls is None:
-                classes = [User, Place, State, City, Amenity, Review]
+        if cls is None:
+            classes = [User, Place, State, City, Amenity, Review]
 
-                for c in classes:
-                    objs = Session.query(c).all()
+            for c in classes:
+                objs = self.__session.query(c).all()
 
-                    for key, value in objs.items():
-                        if value.__class__ == cls:
-                            new_dict[key] = value
-                    return new_dict
-            else:
-                objs = self.__session.query(cls).all()
+                for obj in objs:
+                    key = "{}.{}".format(type(obj).__name__, obj.id)
+                    new_dict[key] = obj
+        else:
+            objs = self.__session.query(cls).all()
 
-                for key, value in objs:
-                    if value.__class__ == cls:
-                        new_dict[key] = value
-                return new_dict
+            for obj in objs:
+                key = "{}.{}".format(type(obj).__name__, obj.id)
+                new_dict[key] = obj
+        return new_dict
