@@ -39,12 +39,12 @@ class DBStorage:
 
         if cls is None:
             classes = {
-                "User": User,
-                "Place": Place,
-                "State": State,
-                "City": City,
-                "Amenity": Amenity,
-                "Review": Review,
+                User,
+                Place,
+                State,
+                City,
+                Amenity,
+                Review
             }
 
             for c in classes:
