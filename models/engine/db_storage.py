@@ -3,8 +3,8 @@
 from MySQLdb import _mysql
 import os
 from models.engine import Base
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import Session, sessionmaker, scoped_session
 
 from models.user import User
 from models.state import State
@@ -31,33 +31,5 @@ class DBStorage:
 
         Base.metadata.create_all(self.__engine)
 
-        Session = sessionmaker(bind=self.__engine)
-        session = Session()
-
-    def all(self, cls=None):
-        new_dict = {}
-
-        if cls is None:
-            classes = {
-                User,
-                Place,
-                State,
-                City,
-                Amenity,
-                Review
-            }
-
-            for c in classes:
-                objs = Session.query(c).all()
-
-                for key, value in objs.items():
-                    if value.__class__ == cls:
-                        new_dict[key] = value
-                return new_dict
-        else:
-            objs = self.__session.query(cls).all()
-
-            for key, value in objs:
-                if value.__class__ == cls:
-                    new_dict[key] = value
-            return new_dict
+                Session = sessionmaker(bind=self.__engine)
+                session = Session()
