@@ -38,7 +38,6 @@ class DBStorage:
         new_dict = {}
 
         if cls is None:
-            
             classes = {
                 User,
                 Place,

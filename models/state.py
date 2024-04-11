@@ -16,5 +16,3 @@ class State(BaseModel):
             if City.state_id == State.id:
                 city_instances.append(City)
         return city_instances
-
-    
