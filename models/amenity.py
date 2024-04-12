@@ -17,6 +17,7 @@ place_amenity = Table(
 
 class Amenity(BaseModel, Base):
     __tablename__ = "amenities"
+    id = Column(String(60), nullable=False, primary_key=True)
     name = Column(String(128), nullable=True)
     place_amenities = relationship(
         "Place", secondary=place_amenity, backref="amenities"

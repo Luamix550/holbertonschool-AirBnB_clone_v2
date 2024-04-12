@@ -21,6 +21,7 @@ class Place(BaseModel, Base):
     """A place to stay"""
 
     __tablename__ = "places"
+    id = Column(String(60), nullable=False, primary_key=True)
     city_id = Column(String(60), ForeignKey("cities.id"), nullable=True)
     user_id = Column(String(60), ForeignKey("users.id"), nullable=True)
     name = Column(String(128), nullable=True)
