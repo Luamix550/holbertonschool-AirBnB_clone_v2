@@ -62,7 +62,7 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-<<<<<<< HEAD
+
         """Removes an object from the storage dictionary"""
         from models.__init__ import storage
 
@@ -73,11 +73,3 @@ class FileStorage:
                 storage.save()
         else:
             return
-=======
-        """To delete obj from __objects"""
-        if obj is not None:
-            keyObj = "{}.{}".format(type(obj).__name__, obj.id)
-            if keyObj in FileStorage.__objects:
-                del FileStorage.__objects[keyObj]
-                self.save()
->>>>>>> b89180e (Update FileStorage and test setup mysql)
