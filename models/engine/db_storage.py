@@ -7,7 +7,7 @@ from models.base_model import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
-from models.luser import User
+from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
