@@ -142,12 +142,31 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             new_instance = eval(className)()
-            for i in range(1, len(classArg)):
-                attr = classArg[i].split("=")
-                setattr(new_instance, attr[0], eval(attr[1].replace("_", " ")))
+
+            if len(classArg) > 1:
+                for param in classArg[1:]:
+                    key, value = param.split("=")
+
+                    if hasattr(new_instance, key):
+                        if value.startswith('"'):
+                            value = value[1:-1].replace('\\"', '"').replace("_", " ")
+                        elif "." in value:
+                            try:
+                                value = float(value)
+                            except ValueError:
+                                continue
+                        else:
+                            try:
+                                value = int(value)
+                            except ValueError:
+                                continue
+                        setattr(
+                            new_instance, key, type(getattr(new_instance, key))(value)
+                        )
+
+            new_instance.save()
             print(new_instance.id)
-            storage.save()
-            
+
     def help_create(self):
         """Help information for the create method"""
         print("Creates a class of any type")
