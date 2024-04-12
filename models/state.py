@@ -15,6 +15,6 @@ class State(BaseModel, Base):
     def get_cities(self):
         city_instances = []
         for City in self.cities:
-            if City.state_id == State.id:
+            if City.state_id == self.id:
                 city_instances.append(City)
         return city_instances
