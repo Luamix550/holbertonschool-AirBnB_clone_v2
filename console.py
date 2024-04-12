@@ -144,7 +144,7 @@ class HBNBCommand(cmd.Cmd):
             new_instance = eval(className)()
             for i in range(1, len(classArg)):
                 attr = classArg[i].split("=")
-                setattr(new_instance, attr[0], attr[1].replace("_", " "))
+                setattr(new_instance, attr[0], eval(attr[1].replace("_", " ")))
             print(new_instance.id)
             storage.save()
             
