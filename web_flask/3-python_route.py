@@ -25,12 +25,11 @@ def c_route(text):
     return "C {}".format(text.replace('_', ' '))
 
 
-@app.route('/python/', strict_slashes=False)
+@app.route('/python/', default={"text": "is cool"})
 @app.route('/python/<text>', strict_slashes=False)
 def python_route(text):
     """Display "Python " when accessing the /python/<text> route """
-    text = "is cool".replace(('_', ' '))
-    return "Python {}".format(text)
+    return "Python {}".format(text.replace(('_', ' ')))
 
 
 if __name__ == '__main__':
