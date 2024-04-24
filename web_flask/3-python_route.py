@@ -29,7 +29,7 @@ def c_route(text):
 @app.route('/python/<text>', strict_slashes=False)
 def python_route(text):
     """Display "Python " when accessing the /python/<text> route """
-    return "Python {}".format(text.replace(('_', ' ')))
+    return "Python {}".format(text.replace('_', ' '))
 
 
 if __name__ == '__main__':
