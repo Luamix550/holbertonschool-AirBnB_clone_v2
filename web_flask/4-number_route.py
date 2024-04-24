@@ -31,12 +31,14 @@ def python_route(text):
     """Display "Python " when accessing the /python/<text> route """
     return "Python {}".format(text.replace('_', ' '))
 
+
 @app.route('/number/<n>', strict_slashes=False)
 def number_route(n):
     if n.isdigit():
         return "{} is a number".format(n)
     else:
         return
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000)
