@@ -34,6 +34,7 @@ def python_route(text):
 
 @app.route('/number/<n>', strict_slashes=False)
 def number_route(n):
+    """Display "{} is a number " when accessing the /number/<n> route """
     if n.isdigit():
         return "{} is a number".format(n)
 
