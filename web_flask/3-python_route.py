@@ -7,7 +7,7 @@ from flask import Flask, escape
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", strict_slashes=False)
 def hello_world():
     """Display "Hello HBNB!" when accessing the root route"""
     return "Hello HBNB!"
@@ -19,14 +19,14 @@ def hbnb():
     return "HBNB"
 
 
-@app.route("/c/<text>")
+@app.route("/c/<text>", strict_slashes=False)
 def c_route(text):
     """Display 'C' followed by the value of the text variable"""
     return "C {}".format(text.replace('_', ' '))
 
 
-@app.route('/python/', defaults={'text': 'is cool'})
-@app.route('/python/<text>')
+@app.route('/python/', strict_slashes=False)
+@app.route('/python/<text>', strict_slashes=False)
 def python_route(text):
     """Display "Python " when accessing the /python/<text> route """
     return "Python {}".format(text.replace('_', ' '))
