@@ -13,19 +13,19 @@ def hello_world():
     """starts a Flask web application
 
     Returns:
-        str: return a string
+        str: return a string "Hello HBNB"
     """
     return "Hello HBNB!"
 
 
 @app.route("/hbnb")
-def hello_world():
+def new_rute():
     """starts a Flask web application
 
     Returns:
         str: return a string
     """
-    return "HBNB!"
+    return "HBNB"
 
 
 if __name__ == '__main__':
