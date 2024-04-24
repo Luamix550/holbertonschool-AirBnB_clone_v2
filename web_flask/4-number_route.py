@@ -33,8 +33,8 @@ def python_route(text):
 
 
 @app.route("/number/<int:n>", strict_slashes=False)
-def number(n):
-    """Displays 'n is a number' only if n is an integer"""
+def number_route(n):
+    """Displays "n is a number" only if n is an integer"""
     return "{} is a number".format(n)
 
 
