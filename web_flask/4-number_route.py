@@ -36,8 +36,6 @@ def python_route(text):
 def number_route(n):
     if n.isdigit():
         return "{} is a number".format(n)
-    else:
-        return
 
 
 if __name__ == '__main__':
