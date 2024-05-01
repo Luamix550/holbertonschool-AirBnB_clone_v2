@@ -1,21 +1,28 @@
 #!/usr/bin/python3
-"""Starts a Flask web application."""
-from models import storage
+""" Script that starts a Flask web application """
 from flask import Flask, render_template
-
-flk = Flask(__name__)
-
-
-@flk.route("/states_list", strict_slashes=False)
-def states_list():
-    states = storage.all("State")
-    return render_template("7-states_list.html", states=states)
+from models import storage
+from models.state import State
 
 
-@flk.teardown_appcontext
-def teardown(exc):
+app = Flask(__name__)
+
+
+@app.route('/states_list', strict_slashes=False)
+def path_states_list():
+    """ Function display en templated state list """
+    all_states = storage.all(State)
+    return render_template(
+                            '7-states_list.html',
+                            items=all_states.values()
+                            )
+
+
+@app.teardown_appcontext
+def teardown_close_session(exception):
+    """ Function to be called when the application context ends. """
     storage.close()
 
 
 if __name__ == "__main__":
-    flk.run(host="0.0.0.0", port=5000)
+    app.run(host='0.0.0.0', port=5000)
